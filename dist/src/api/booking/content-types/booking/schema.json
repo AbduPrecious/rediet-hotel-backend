@@ -61,6 +61,24 @@
             "relation": "oneToMany",
             "target": "api::review.review",
             "mappedBy": "room"
+        },
+        "paymentScreenshot": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "paymentStatus": {
+            "type": "enumeration",
+            "enum": [
+                "pending",
+                "approved",
+                "rejected"
+            ]
+        },
+        "paymentNote": {
+            "type": "text"
         }
     }
 }

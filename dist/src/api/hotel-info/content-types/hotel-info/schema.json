@@ -50,6 +50,9 @@
         },
         "linkedin": {
             "type": "string"
+        },
+        "menuLink": {
+            "type": "text"
         }
     }
 }

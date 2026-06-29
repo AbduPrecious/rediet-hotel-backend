@@ -569,6 +569,11 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
         },
         number
       >;
+    paymentNote: Schema.Attribute.Text;
+    paymentScreenshot: Schema.Attribute.Media<'images'>;
+    paymentStatus: Schema.Attribute.Enumeration<
+      ['pending', 'approved', 'rejected']
+    >;
     phone: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
@@ -684,6 +689,7 @@ export interface ApiHotelInfoHotelInfo extends Struct.SingleTypeSchema {
       'api::hotel-info.hotel-info'
     > &
       Schema.Attribute.Private;
+    menuLink: Schema.Attribute.Text;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     tagline: Schema.Attribute.String;
@@ -692,6 +698,39 @@ export interface ApiHotelInfoHotelInfo extends Struct.SingleTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     youtube: Schema.Attribute.String;
+  };
+}
+
+export interface ApiMenuMenu extends Struct.CollectionTypeSchema {
+  collectionName: 'menus';
+  info: {
+    displayName: 'Menu';
+    pluralName: 'menus';
+    singularName: 'menu';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    category: Schema.Attribute.Enumeration<
+      ['breakfast', 'lunch', 'dinner', 'drinks']
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    isAvailable: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::menu.menu'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    order: Schema.Attribute.Integer;
+    price: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1377,6 +1416,7 @@ declare module '@strapi/strapi' {
       'api::contact-submission.contact-submission': ApiContactSubmissionContactSubmission;
       'api::contact.contact': ApiContactContact;
       'api::hotel-info.hotel-info': ApiHotelInfoHotelInfo;
+      'api::menu.menu': ApiMenuMenu;
       'api::review.review': ApiReviewReview;
       'api::room.room': ApiRoomRoom;
       'api::staf.staf': ApiStafStaf;
